@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dnlfqa_app/globals.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -24,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   //bool _loading = true;
+  //bool darkTheme = true;
 
 
   @override
@@ -104,68 +106,66 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final ButtonStyle style = ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10)
-      ),
-      textStyle: const TextStyle(
-        fontSize: 60,
-      ),
-      fixedSize: const Size(300, 150),
+    final Color color = darkTheme ? ColorPalette.colorDMain : ColorPalette.colorLMain;
+
+    final MyElevatedButtonStyle style = MyElevatedButtonStyle(
+      height: 150,
+      width: 300,
+      borderRadius: BorderRadius.circular(10),
+      gradient: LinearGradient(
+          colors: darkTheme ? [const Color(0xFFFBEFDF), const Color(0xFFAC7656)] : [const Color(0xFF251712), const Color(0xFF462E25)],
+          begin: const Alignment(-1,-1),
+          end: const Alignment(1,1),
+      )
     );
+
     final scrollBtns = [
-      ElevatedButton(
+      MyElevatedButton(
           style: style,
           onPressed: () {},
           child: TextTitle(
               text: "News",
-              align: TextAlign.center,
-              color: ColorPalette.colorLMain
+              color: color
           )
       ),
-      ElevatedButton(
+      MyElevatedButton(
         style: style,
           onPressed: () {},
           child: TextTitle(
             text: "Announcements",
-            align: TextAlign.center,
-            color: ColorPalette.colorLMain
+              color: color
           )
       ),
-      ElevatedButton(
+      MyElevatedButton(
         style: style,
           onPressed: () {},
           child: TextTitle(
               text: "Forms",
-              align: TextAlign.center,
-              color: ColorPalette.colorLMain
+              color: color
           )
       ),
-      ElevatedButton(
+      MyElevatedButton(
         style: style,
           onPressed: () {},
           child: TextTitle(
               text: "Upcoming Meetings",
-              align: TextAlign.center,
-              color: ColorPalette.colorLMain
+              color: color
           )
       ),
-      ElevatedButton(
+      MyElevatedButton(
           style: style,
           onPressed: () {},
           child: TextTitle(
               text: "Gallery",
-              align: TextAlign.center,
-              color: ColorPalette.colorLMain
+              color: color
           )
       ),
-      ElevatedButton(
+      MyElevatedButton(
           style: style,
           onPressed: () {},
           child: TextTitle(
               text: "Prayer Requests",
-              align: TextAlign.center,
-              color: ColorPalette.colorLMain
+              color: color
           )
       ),
     ];
@@ -179,18 +179,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: ColorPalette.colorLMain,
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment(0.5, 1),
-            end: Alignment(-0.5, -1.0),
-            colors: [
-              Color(0xFFFAEDDD),
-              Color(0XFFDDC2AE),
-              Color(0XFFA97C62),
-            ],
+            begin: Alignment(-0.5, -1),
+            end: Alignment(0.5, 1.0),
+            colors: darkTheme ? [Color(0xFF2D211C), Color(0XFF4D331D), Color(0XFF8D6852)]  :  [Color(0xFFF4DCC0), Color(0XFFDDC2AE), Color(0XFFC59E87) ],
             stops: [
               0.0,
-              0.7,
+              0.5,
               1.0
             ]
 
@@ -210,6 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   IconButton(
+                    color: darkTheme ? ColorPalette.colorLMain : ColorPalette.colorDMain,
                     icon: const Icon(Icons.settings),
                     iconSize: 45,
                     onPressed: (){
@@ -222,106 +219,104 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               SizedBox(height: 10),
-                  CarouselSlider.builder(
-                      itemCount: scrollBtns.length,
-                      itemBuilder: (context, index, realIndex){
-                        final scrollBtn = scrollBtns[index];
-                        return buildImage(scrollBtn, index);
-                      },
-                      options: CarouselOptions(
-                        viewportFraction: 0.8,
-                        height: 175,
-                        autoPlay: false,
-                        enlargeCenterPage: true,
-                        enlargeStrategy: CenterPageEnlargeStrategy.height,
-                      )
-                  ),
-                  SizedBox(height: 30,),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextSubTitle(
-                          text: "Daily Manna",
-                          color: ColorPalette.colorDMain,
-                        ),
-                        SizedBox(height: 5,),
-                        YoutubePlayer(
-                          controller: _controller,
-                          showVideoProgressIndicator: true,
-                          bottomActions: [
-                            CurrentPosition(),
-                            ProgressBar(isExpanded: true),
+                CarouselSlider.builder(
+                    itemCount: scrollBtns.length,
+                    itemBuilder: (context, index, realIndex){
+                      final scrollBtn = scrollBtns[index];
+                      return buildImage(scrollBtn, index);
+                    },
+                    options: CarouselOptions(
+                      viewportFraction: 0.8,
+                      height: 175,
+                      autoPlay: false,
+                      enlargeCenterPage: true,
+                      enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    )
+                ),
+                SizedBox(height: 30,),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextSubTitle(
+                        text: "Daily Manna",
+                        color: darkTheme ? ColorPalette.colorLMain : ColorPalette.colorDMain
+                      ),
+                      SizedBox(height: 5,),
+                      YoutubePlayer(
+                        controller: _controller,
+                        showVideoProgressIndicator: true,
+                        bottomActions: [
+                          CurrentPosition(),
+                          ProgressBar(isExpanded: true),
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      TextSubTitle(
+                        text: "Pastor's Message",
+                        color: darkTheme ? ColorPalette.colorLMain : ColorPalette.colorDMain                      ),
+                      TextPrimary(
+                          text: "Lorem ipsum dolor sit amet"
+                              ", consectetur adipiscing elit. Maecenas nec elementum dui, non scelerisque sapien. Pellentesque tempor "
+                              "\neget neque at scelerisque. Morbi auctor leo nisi, vel commodo elit venenatis ut. Maecenas mollis ex non urna tincidunt,"
+                              "consectetur adipiscing elit. Maecenas nec elementum dui, non scelerisque sapien. Pellentesque tempor "
+                              " a varius nibh ultricies. In eu arcu a augue aliquet pulvinar. Nam ante erat, dignissim vitae velit sit amet, imperdiet dignissim sem. Aliquam tincidunt sapien quis elementum cursus.\n Curabitur non felis facilisis, iaculis sapien eu, semper mauris.",
+                          color: darkTheme ? Color(0xFFAB9787) : ColorPalette.colorDMain
+                      ),
+                      SizedBox(height: 20,),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: darkTheme ? ColorPalette.colorLSecondary : ColorPalette.colorDMain
+                      ),
+                      // SizedBox(height: 20,),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: Image.asset('assets/Youtube_Icon.png'),
+                              onPressed: (){},
+                            ),
+                            IconButton(
+                              icon: Image.asset('assets/Facebook_Icon.png'),
+                              onPressed: (){},
+                            ),
+                            IconButton(
+                              icon: Image.asset('assets/Insta_Icon.png'),
+                              onPressed: (){},
+                            ),
+                            IconButton(
+                              icon: Image.asset('assets/Twitter_Icon.png'),
+                              onPressed: (){},
+                            ),
+                            IconButton(
+                              icon: Image.asset('assets/Whatsapp_Icon.png'),
+                              onPressed: (){},
+                            ),
                           ],
                         ),
-                        SizedBox(height: 15,),
-                        TextSubTitle(
-                          text: "Pastor's\nMessage",
-                          color: ColorPalette.colorDMain,
-                        ),
-                        TextPrimary(
-                            text: "Lorem ipsum dolor sit amet"
-                                ", consectetur adipiscing elit. Maecenas nec elementum dui, non scelerisque sapien. Pellentesque tempor "
-                                "\neget neque at scelerisque. Morbi auctor leo nisi, vel commodo elit venenatis ut. Maecenas mollis ex non urna tincidunt,"
-                                "consectetur adipiscing elit. Maecenas nec elementum dui, non scelerisque sapien. Pellentesque tempor "
-                                " a varius nibh ultricies. In eu arcu a augue aliquet pulvinar. Nam ante erat, dignissim vitae velit sit amet, imperdiet dignissim sem. Aliquam tincidunt sapien quis elementum cursus.\n Curabitur non felis facilisis, iaculis sapien eu, semper mauris.",
-                            color: ColorPalette.colorDMain
-                        ),
-                        SizedBox(height: 20,),
-                        Divider(
-                          height: 1,
-                          thickness: 1,
-                          color: Colors.black,
-                        ),
-                        // SizedBox(height: 20,),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                icon: Image.asset('assets/Youtube_Icon.png'),
-                                onPressed: (){},
-                              ),
-                              IconButton(
-                                icon: Image.asset('assets/Facebook_Icon.png'),
-                                onPressed: (){},
-                              ),
-                              IconButton(
-                                icon: Image.asset('assets/Insta_Icon.png'),
-                                onPressed: (){},
-                              ),
-                              IconButton(
-                                icon: Image.asset('assets/Twitter_Icon.png'),
-                                onPressed: (){},
-                              ),
-                              IconButton(
-                                icon: Image.asset('assets/Whatsapp_Icon.png'),
-                                onPressed: (){},
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 20,),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 20,),
+                    ],
                   ),
-              /*
-              SizedBox(height: 10,),
-              TextButton(
-                  onPressed: () {
-                    DateTime dt = DateTime.now().add(const Duration(seconds: 5));
-                    createScheduledNotification(
-                        DateTime.now().add(const Duration(seconds: 5))
-                    );
-                  },
-                  child: TextPrimary(text: 'Schedule notification')
-              ),
-              TextButton(
-                  onPressed: cancelScheduledNotifications,
-                  child: TextPrimary(text: 'Delete notification')
-              ),
-              */
+                ),
+            /*
+            TextButton(
+                onPressed: () {
+                  DateTime dt = DateTime.now().add(const Duration(seconds: 5));
+                  createScheduledNotification(
+                      DateTime.now().add(const Duration(seconds: 5))
+                  );
+                },
+                child: TextPrimary(text: 'Schedule notification')
+            ),
+            TextButton(
+                onPressed: cancelScheduledNotifications,
+                child: TextPrimary(text: 'Delete notification')
+            ),
+            */
             ],
           ),
         ),
@@ -329,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget buildImage(ElevatedButton button, int index) => Container(
+  Widget buildImage(MyElevatedButton button, int index) => Container(
     //margin: const EdgeInsets.symmetric(),
     child: button
   );

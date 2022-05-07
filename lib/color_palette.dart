@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 class ColorPalette {
-  static const int _blackPrimaryValue = 0xFF333333;
+  // static const int _blackPrimaryValue = 0xFF333333;
+  //
+  // static const MaterialColor primaryBlack = MaterialColor(
+  //   _blackPrimaryValue,
+  //   <int, Color>{
+  //     50: Color(_blackPrimaryValue),
+  //     100: Color(_blackPrimaryValue),
+  //     200: Color(_blackPrimaryValue),
+  //     300: Color(_blackPrimaryValue),
+  //     400: Color(_blackPrimaryValue),
+  //     500: Color(_blackPrimaryValue),
+  //     600: Color(_blackPrimaryValue),
+  //     700: Color(_blackPrimaryValue),
+  //     800: Color(_blackPrimaryValue),
+  //     900: Color(_blackPrimaryValue),
+  //   },
+  // );
 
-  static const MaterialColor primaryBlack = MaterialColor(
-    _blackPrimaryValue,
-    <int, Color>{
-      50: Color(_blackPrimaryValue),
-      100: Color(_blackPrimaryValue),
-      200: Color(_blackPrimaryValue),
-      300: Color(_blackPrimaryValue),
-      400: Color(_blackPrimaryValue),
-      500: Color(_blackPrimaryValue),
-      600: Color(_blackPrimaryValue),
-      700: Color(_blackPrimaryValue),
-      800: Color(_blackPrimaryValue),
-      900: Color(_blackPrimaryValue),
-    },
-  );
+//TODO: Make secondary colors upto 2 atleast for dark and light
 
-
-  static const int _colorLMainValue = 0xFFFBEFDF;
+  static const int _colorLMainValue = 0xFFF0E1CC;
 
   static const MaterialColor colorLMain = MaterialColor(
     _colorLMainValue,
@@ -37,23 +38,25 @@ class ColorPalette {
     },
   );
 
-  static const int _colorLSecondaryValue = 0xFF8D6852;
+  static const int _colorL1Value = 0xFF8D6852;
 
   static const MaterialColor colorLSecondary = MaterialColor(
-    _colorLSecondaryValue,
+    _colorL1Value,
     <int, Color>{
-      50: Color(_colorLSecondaryValue),
-      100: Color(_colorLSecondaryValue),
-      200: Color(_colorLSecondaryValue),
-      300: Color(_colorLSecondaryValue),
-      400: Color(_colorLSecondaryValue),
-      500: Color(_colorLSecondaryValue),
-      600: Color(_colorLSecondaryValue),
-      700: Color(_colorLSecondaryValue),
-      800: Color(_colorLSecondaryValue),
-      900: Color(_colorLSecondaryValue),
+      50: Color(_colorL1Value),
+      100: Color(_colorL1Value),
+      200: Color(_colorL1Value),
+      300: Color(_colorL1Value),
+      400: Color(_colorL1Value),
+      500: Color(_colorL1Value),
+      600: Color(_colorL1Value),
+      700: Color(_colorL1Value),
+      800: Color(_colorL1Value),
+      900: Color(_colorL1Value),
     },
   );
+
+
 
   static const int _colorDMainValue = 0xFF2D211C;
 

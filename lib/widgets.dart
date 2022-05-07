@@ -1,3 +1,4 @@
+import 'package:dnlfqa_app/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class TextPrimary extends StatelessWidget {
@@ -29,7 +30,7 @@ class TextTitle extends StatelessWidget {
   TextAlign align;
   Color? color;
 
-  TextTitle({required this.text, this.align = TextAlign.left, this.color = Colors.black54});
+  TextTitle({required this.text, this.align = TextAlign.center, this.color = Colors.black54});
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +89,58 @@ class TextThick extends StatelessWidget {
             fontWeight: FontWeight.w900,
             color: color
         )
+    );
+  }
+}
+
+class  MyElevatedButtonStyle {
+  final Gradient? gradient;
+  final double height;
+  final double? width;
+  final BorderRadiusGeometry? borderRadius;
+
+  MyElevatedButtonStyle({
+    this.gradient,
+    this.borderRadius,
+    this.width,
+    this.height = 44.0,
+  });
+
+}
+
+class MyElevatedButton extends StatelessWidget {
+  final MyElevatedButtonStyle style;
+  final VoidCallback? onPressed;
+  final Widget child;
+
+  const MyElevatedButton({
+    Key? key,
+    required this.onPressed,
+    required this.child,
+    required this.style,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final borderRadius = this.style.borderRadius ?? BorderRadius.circular(0);
+    return Container(
+      width: style.width,
+      height: style.height,
+      decoration: BoxDecoration(
+        gradient: style.gradient,
+        borderRadius: borderRadius,
+      ),
+      child: ElevatedButton(
+        onPressed: onPressed,
+
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          primary: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        ),
+        child: child,
+      ),
     );
   }
 }
