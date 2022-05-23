@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "635658730418",
+    "project_id": "dnlfapp",
+    "storage_bucket": "dnlfapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635658730418:android:fd711b26d3dbb03d0b82ab",
+        "android_client_info": {
+          "package_name": "com.example.dnlfqa_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635658730418-evq5339ih1k22jq5mfcok3bvnt7sn31n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeZvseo-QdyHXF9iilS8gBD3PHztjbUbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635658730418-evq5339ih1k22jq5mfcok3bvnt7sn31n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
