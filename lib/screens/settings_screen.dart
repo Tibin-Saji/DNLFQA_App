@@ -48,20 +48,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         body: Container(
           color: Colors.transparent,
-          // decoration: BoxDecoration(
-          //   gradient: LinearGradient(
-          //     begin: Alignment(-0.5, -1),
-          //     end: Alignment(0.5, 1.0),
-          //     colors: darkTheme ? [Color(0xFF2D211C), Color(0XFF4D331D), Color(0XFF8D6852)]  :  [Color(0xFFF4DCC0), Color(0XFFDDC2AE), Color(0XFFC59E87) ],
-          //     stops: const [0.0, 0.5, 1.0]
-          //   )
-          // ),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextSubTitle(
+              TextSubTitleRegular(
                 text: 'Get notification for :',
                 color: ColorPalette.colorLMain
               ),
@@ -140,8 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           child: TextButton(
                             child: const Text('Delete DB'),
                             onPressed: () {
-                              DatabaseHelper helper = DatabaseHelper.instance;
-                              helper.DeleteDB();
+
                             },
                           ),
                         ),
@@ -182,21 +173,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   _read_new() async {
-    DatabaseHelper helper = DatabaseHelper.instance;
-    DateTime dt = DateTime(2022, 3, 1);
-    Birthday? bday = await helper.queryBirthday(dt);
-    if (bday == null) {
-      print('No birthdays on $dt');
-    } else {
-      print('${bday.date}: ${bday.name}');
-    }
+    // DatabaseHelper helper = DatabaseHelper.instance;
+    // DateTime dt = DateTime(2022, 3, 1);
+    // Birthday? bday = await helper.queryBirthday(dt);
+    // if (bday == null) {
+    //   print('No birthdays on $dt');
+    // } else {
+    //   print('${bday.date}: ${bday.name}');
+    // }
   }
   _save_new() async {
-    Birthday bday = Birthday();
-    bday.name = 'hello';
-    bday.date = DateTime(2022, 3, 1);
-    DatabaseHelper helper = DatabaseHelper.instance;
-    int? id = await helper.insert(bday);
-    print('inserted row: $id');
+    // Birthday bday = Birthday();
+    // bday.name = 'hello';
+    // bday.date = DateTime(2022, 3, 1);
+    // DatabaseHelper helper = DatabaseHelper.instance;
+    // int? id = await helper.insert(bday);
+    // print('inserted row: $id');
   }
 }

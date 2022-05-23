@@ -1,166 +1,112 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'package:dnlfqa_app/firestore_functions.dart';
+import 'package:dnlfqa_app/meeting_class.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
 
-// database table and column names
-final String tableWords = 'words';
-final String columnId = '_id';
-final String columnWord = 'word';
-final String columnFrequency = 'frequency';
+class MeetingsDatabase {
+  static final MeetingsDatabase instance = MeetingsDatabase._init();
 
-final String tableBirthday = 'birthdays';
-final String columnName = 'name';
-final String columnDate = 'date';
-
-//TODO: Change class Word to Birthdays, Weddings, so on
-//TODO: Create a delete function for table and for element
-
-// data model class
-class Word {
-
-  late int id = 0;
-  late String word;
-  late int frequency;
-
-  Word();
-
-  // convenience constructor to create a Word object
-  Word.fromMap(Map<String, dynamic> map) {
-    //id = map[columnId];
-    word = map[columnWord];
-    frequency = map[columnFrequency];
-  }
-
-  // convenience method to create a Map from this Word object
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      columnWord: word,
-      columnFrequency: frequency
-    };
-
-      //map[columnId] = id;
-
-    return map;
-  }
-}
-
-class Birthday{
-  late String name;
-  late DateTime date;
-
-  Birthday();
-
-  Birthday.fromMap(Map<String, dynamic> map) {
-    //id = map[columnId];
-    name = map[columnName];
-    date = DateTime.parse(map[columnDate]);
-  }
-
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      columnName: name,
-      columnDate: date.toString()
-    };
-
-    //map[columnId] = id;
-
-    return map;
-  }
-}
-
-// singleton class to manage the database
-class DatabaseHelper {
-
-  // This is the actual database filename that is saved in the docs directory.
-  static var _databaseName = "MyDatabase.db";
-  // Increment this version when you need to change the schema.
-  static var _databaseVersion = 1;
-
-  // Make this a singleton class.
-  DatabaseHelper._privateConstructor();
-  // DatabaseHelper(){
-  //   _databaseName = "MyDatabase.db";
-  //   _databaseVersion = 1;
-  // }
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
-
-  // Only allow a single open connection to the database.
   static Database? _database;
-  Future<Database?> get database async {
-    if (_database != null) return _database;
-    _database = await _initDatabase();
-    return _database;
+  static var dbPath;
+
+  MeetingsDatabase._init();
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+
+    _database = await _initDB('notes.db');
+    return _database!;
   }
 
-  // open the database
-  _initDatabase() async {
-    // The path_provider plugin gets the right directory for Android or iOS.
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, _databaseName);
-    // Open the database. Can also add an onUpdate callback parameter.
-    return await openDatabase(
-        path,
-        version: _databaseVersion,
-        onCreate: _onCreate);
+  Future<Database> _initDB(String filePath) async {
+    dbPath = await getDatabasesPath();
+    dbPath = join(dbPath, filePath);
+
+    return await openDatabase(dbPath, version: 1, onCreate: _createDB);
   }
 
-  // SQL string to create the database
-  Future _onCreate(Database db, int version) async {
+  Future _createDB(Database db, int version) async {
+    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    const textType = 'TEXT';
+    const integerType = 'INTEGER';
+    const notNull = 'NOT NULL';
+
     await db.execute('''
-              CREATE TABLE $tableBirthday (
-                $columnId INTEGER PRIMARY KEY AUTO_INCREMENT,
-                $columnName TEXT NOT NULL,
-                $columnDate TEXT NOT NULL
-              )
-              ''');
+      CREATE TABLE $tableMeet ( 
+        _id $idType,
+        ${MeetingField.name} $textType $notNull UNIQUE, 
+        ${MeetingField.time} $textType $notNull,
+        ${MeetingField.link} $textType $notNull,
+        ${MeetingField.mId} $textType $notNull,
+        ${MeetingField.pass} $textType $notNull,
+        ${MeetingField.note} $textType,
+        ${MeetingField.weekday} $textType,
+        ${MeetingField.startDate} $textType,
+        ${MeetingField.endDate} $textType
+        )
+    ''');
+    //TODO: Take the bottom part out off this function
+
   }
 
-  Future DeleteTable(String tableName) async {
-    await _database?.execute('''
-              DROP TABLE $tableName;
-              ''');
+  Future<void> Insert(Meeting meet) async {
+    final db = await instance.database;
+    final id = await db.insert(tableMeet, meet.toJson());
+    // Do whatever you want with the id here.
   }
 
-  Future DeleteLine(Database db, String tableName, String name) async {
-    await _database?.execute('''
-              DELETE FROM $tableName WHERE $columnName = $name;
-              ''');
+  // Future<Meeting> readNote(int id) async {
+  //   final db = await instance.database;
+  //
+  //   final maps = await db.query(
+  //     tableMeet,
+  //     columns: MeetingField.values,
+  //     where: '${MeetingField.name} = ?',
+  //     whereArgs: [id],
+  //   );
+  //
+  //   if (maps.isNotEmpty) {
+  //     return Meeting.fromJson(maps.first);
+  //   } else {
+  //     throw Exception('ID $id not found');
+  //   }
+  // }
+
+  Future<List<Meeting>> readMeetings(bool isWeekly) async {
+    final db = await instance.database;
+
+    final where = isWeekly ? 'weekday IS NOT NULL' : 'weekday IS NULL';
+
+    final orderBy = '${MeetingField.weekday} ASC';
+
+    final result = await db.query(tableMeet, orderBy: orderBy, where: where);
+
+    return result.map((json) => Meeting.fromJson(json)).toList();
   }
 
-  Future DeleteDB() async {
-    await _database?.execute('''
-              DROP DATABASE $_databaseName;
-              ''');
+  // Might have to edit this function as I have no idea what this does
+  Future<int> update(Meeting meet) async {
+    final db = await instance.database;
+
+    return db.update(
+      tableMeet,
+      meet.toJson(),
+      where: '${MeetingField.mId} = ?',
+      whereArgs: [meet.mId],
+    );
   }
 
-  // Database helper methods:
-
-  Future<int?> insert(Birthday bday) async {
-    Database? db = await database;
-    int? id = await db?.insert(tableWords, bday.toMap());
-    print('The id from insert is $id');
-    return id;
+  Future<void> deleteDb() async {
+    await deleteDatabase(dbPath);
   }
 
-  Future queryBirthday(DateTime date) async {
-    Database? db = await database;
-    List<Map<String, Object?>>? maps = await db?.query(
-        tableBirthday,
-        columns: [columnId, columnName, columnDate],
-        where: '$columnDate = ?',
-        whereArgs: [date.toString()]);
-    if (maps != null) {
-      if (maps.isNotEmpty) {
-        //TODO: Return array of map
-        return Birthday.fromMap(maps.first);
-      }
-    }
-    return null;
+  Future<void> deleteEntry(String name) async {
+    final db = await instance.database;
+    await db.delete(tableMeet, where: '${MeetingField.name} = ?', whereArgs: [name]);
   }
 
-// TODO: queryAllWords()
-// TODO: delete(int id)
-// TODO: update(Word word)
+  Future close() async {
+    final db = await instance.database;
+    db.close();
+  }
 }

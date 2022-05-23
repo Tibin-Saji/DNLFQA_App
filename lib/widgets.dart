@@ -18,19 +18,65 @@ class TextPrimary extends StatelessWidget {
         fontSize: 16,
         color: color,
         letterSpacing: 1.25,
-        fontFamily: 'SFUI',
+        fontFamily: 'Montserrat',
       )
     );
   }
 }
 
-class TextTitle extends StatelessWidget {
+class TextSecondary extends StatelessWidget {
+  //const TextPrimary({Key? key}) : super(key: key);
+  String text;
+  TextAlign align;
+  Color color;
+
+  TextSecondary({required this.text, this.align = TextAlign.left, this.color = Colors.black54});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        text,
+        textAlign: align,
+        style: TextStyle(
+          fontSize: 18,
+          color: color,
+          letterSpacing: 1.25,
+          fontFamily: 'Montserrat',
+        )
+    );
+  }
+}
+
+class TextSmall1 extends StatelessWidget {
+  //const TextPrimary({Key? key}) : super(key: key);
+  String text;
+  TextAlign align;
+  Color color;
+
+  TextSmall1({required this.text, this.align = TextAlign.left, this.color = Colors.black54});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        text,
+        textAlign: align,
+        style: TextStyle(
+          fontSize: 12,
+          color: color,
+          letterSpacing: 1.25,
+          fontFamily: 'Montserrat',
+        )
+    );
+  }
+}
+
+class TextTitleRegular extends StatelessWidget {
   //const TextPrimary({Key? key}) : super(key: key);
   String text;
   TextAlign align;
   Color? color;
 
-  TextTitle({required this.text, this.align = TextAlign.center, this.color = Colors.black54});
+  TextTitleRegular({required this.text, this.align = TextAlign.center, this.color = Colors.black54});
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +86,45 @@ class TextTitle extends StatelessWidget {
         style: TextStyle(
           fontSize: 50,
           letterSpacing: 1.5,
-          fontFamily: 'SFUI',
-          fontWeight: FontWeight.w700,
+          fontFamily: 'Montserrat',
+          fontWeight: FontWeight.w300,
           color: color,
         )
     );
   }
 }
 
-class TextSubTitle extends StatelessWidget {
+class TextTitleThin extends StatelessWidget {
   //const TextPrimary({Key? key}) : super(key: key);
   String text;
   TextAlign align;
   Color? color;
 
-  TextSubTitle({required this.text, this.align = TextAlign.left, this.color = Colors.black54});
+  TextTitleThin({required this.text, this.align = TextAlign.center, this.color = Colors.black54});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        text,
+        textAlign: align,
+        style: TextStyle(
+          fontSize: 50,
+          letterSpacing: 1.5,
+          fontFamily: 'Montserrat',
+          fontWeight: FontWeight.w500,
+          color: color,
+        )
+    );
+  }
+}
+
+class TextSubTitleRegular extends StatelessWidget {
+  //const TextPrimary({Key? key}) : super(key: key);
+  String text;
+  TextAlign align;
+  Color? color;
+
+  TextSubTitleRegular({required this.text, this.align = TextAlign.left, this.color = Colors.black54});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +134,7 @@ class TextSubTitle extends StatelessWidget {
         style: TextStyle(
           fontSize: 35,
           letterSpacing: 0.7,
-          fontFamily: 'Brandon Grotesque',
+          fontFamily: 'Montserrat',
           fontWeight: FontWeight.w500,
           color: color,
         )
@@ -72,11 +142,35 @@ class TextSubTitle extends StatelessWidget {
   }
 }
 
-class TextThick extends StatelessWidget {
+class TextSubTitleThin extends StatelessWidget {
+  //const TextPrimary({Key? key}) : super(key: key);
   String text;
   TextAlign align;
   Color? color;
-  TextThick({required this.text, this.align = TextAlign.center, this.color = Colors.black54});
+
+  TextSubTitleThin({required this.text, this.align = TextAlign.left, this.color = Colors.black54});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        text,
+        textAlign: align,
+        style: TextStyle(
+          fontSize: 35,
+          letterSpacing: 0.7,
+          fontFamily: 'Montserrat',
+          fontWeight: FontWeight.w500,
+          color: color,
+        )
+    );
+  }
+}
+
+class TextThick1 extends StatelessWidget {
+  String text;
+  TextAlign align;
+  Color? color;
+  TextThick1({required this.text, this.align = TextAlign.center, this.color = Colors.black54});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +179,28 @@ class TextThick extends StatelessWidget {
         style: TextStyle(
             fontSize: 24,
             letterSpacing: 1.5,
-            fontFamily: 'SFUI',
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w900,
+            color: color
+        )
+    );
+  }
+}
+
+class TextThick2 extends StatelessWidget {
+  String text;
+  TextAlign align;
+  Color? color;
+  TextThick2({required this.text, this.align = TextAlign.center, this.color = Colors.black54});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        text,
+        style: TextStyle(
+            fontSize: 24,
+            letterSpacing: 1.5,
+            fontFamily: 'Montserrat',
             fontWeight: FontWeight.w900,
             color: color
         )
