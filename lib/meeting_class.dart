@@ -62,6 +62,34 @@ class Meeting {
     startDate: json['StartDate'] as String?,
     endDate: json['EndDate'] as String?,
   );
+
+  static String meetingtoString(Meeting meet) =>
+    '''
+    ${meet.name},
+    ${meet.time},
+    ${meet.link},
+    ${meet.mId},
+    ${meet.pass},
+    ${meet.note ?? ''},
+    ${meet.weekday ?? ''},
+    ${meet.startDate ?? ''},
+    ${meet.endDate ?? ''}
+    ''';
+
+  static Meeting stringToMeeting(String str) {
+    var meetList = str.split(',');
+    return Meeting(
+      name: meetList[0].trim(),
+      time: meetList[1].trim(),
+      link: meetList[2].trim(),
+      mId: meetList[3].trim(),
+      pass: meetList[4].trim(),
+      note: meetList[5].trim() == '' ? null : meetList[5].trim(),
+      weekday: meetList[6].trim() == '' ? null : meetList[6].trim(),
+      startDate: meetList[7].trim() == '' ? null : meetList[7].trim(),
+      endDate: meetList[8].trim() == '' ? null : meetList[8].trim(),
+    );
+  }
 }
 
 class MeetingField{

@@ -46,7 +46,6 @@ class MeetingsDatabase {
         )
     ''');
     //TODO: Take the bottom part out off this function
-
   }
 
   Future<void> Insert(Meeting meet) async {
@@ -54,23 +53,6 @@ class MeetingsDatabase {
     final id = await db.insert(tableMeet, meet.toJson());
     // Do whatever you want with the id here.
   }
-
-  // Future<Meeting> readNote(int id) async {
-  //   final db = await instance.database;
-  //
-  //   final maps = await db.query(
-  //     tableMeet,
-  //     columns: MeetingField.values,
-  //     where: '${MeetingField.name} = ?',
-  //     whereArgs: [id],
-  //   );
-  //
-  //   if (maps.isNotEmpty) {
-  //     return Meeting.fromJson(maps.first);
-  //   } else {
-  //     throw Exception('ID $id not found');
-  //   }
-  // }
 
   Future<List<Meeting>> readMeetings(bool isWeekly) async {
     final db = await instance.database;
@@ -102,7 +84,13 @@ class MeetingsDatabase {
 
   Future<void> deleteEntry(String name) async {
     final db = await instance.database;
-    await db.delete(tableMeet, where: '${MeetingField.name} = ?', whereArgs: [name]);
+    await db.delete(tableMeet,
+        where: '${MeetingField.name} = ?', whereArgs: [name]);
+  }
+
+  Future<void> deleteAllEntry() async {
+    final db = await instance.database;
+    db.execute("delete from $tableMeet");
   }
 
   Future close() async {
